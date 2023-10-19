@@ -7,10 +7,14 @@ s.onload = function () {
     this.remove();
 };
 (document.head || document.documentElement).appendChild(s);
- 
+
 // receive message from injected script
 window.addEventListener('message', function (e) {
-    console.log('content script received:' , e.data.type, e.data.data);
+    if (e.data.type === "refreshToken") {
+        console.log('content script received:', e.data.type, e.data.data);
+        chrome.runtime.sendMessage({ content: e.data.data });
+    }
+
 });
 
 

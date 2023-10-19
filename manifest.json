@@ -1,12 +1,19 @@
 {
-  "name": "GetResponse",
+  "name": "Opentix token getter",
   "version": "0.0.1",
   "manifest_version": 3,
-  "description": "A chrome extension for get http/s's response",
+  "description": "攔截opentix token的小工具 (by David Chen)",
+  "permissions": [
+    "webRequest",
+    "activeTab",
+    "storage",
+    "webNavigation"
+  ],
   "content_scripts": [
     {
       "matches": [
-        "*://*.yoururl.com/*"
+        "*://www.opentix.life/*",
+        "*://cognito-idp.ap-northeast-1.amazonaws.com/*"
       ],
       "js": [
         "./content.js"
@@ -15,8 +22,20 @@
       "all_frames": true
     }
   ],
-  "web_accessible_resources": [{
-    "resources": ["injected.js"],
-    "matches": ["<all_urls>"]
-  }]
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "injected.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
 }
